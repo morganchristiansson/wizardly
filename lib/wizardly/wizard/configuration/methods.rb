@@ -366,13 +366,13 @@ SANDBOX
     when params[:commit]
       button_name = params[:commit]
       button_id = underscore_button_name(button_name).to_sym
-    when ((b_ar = self.wizard_config.buttons.find{|k,b| params[k]}) && params[b_ar.first] == b_ar.last.name)
+    when b_ar = self.wizard_config.buttons.find{|k,b| params[k.to_sym]}
       button_name = b_ar.last.name
       button_id = b_ar.first
     end
     if button_id
       unless [:#{next_id}, :#{finish_id}].include?(button_id) 
-        action_method_name = "_on_" + params[:action].to_s + "_form_" + button_id.to_s
+        action_method_name = "_on_" + button_name + "_form_" + button_id.to_s
         callback_performs_action?(action_method_name)
         unless ((btn_obj = self.wizard_config.buttons[button_id]) == nil || btn_obj.user_defined?)
           method_name = "_on_wizard_" + button_id.to_s
