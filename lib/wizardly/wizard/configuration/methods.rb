@@ -221,7 +221,7 @@ PROGRESSION
   # for :form_data=>:session
   def guard_entry 
     if (r = request.env['HTTP_REFERER'])
-      h = ::ActionController::Routing::Routes.recognize_path(URI.parse(r).path)
+      h = ::ActionController::Routing::Routes.recognize_path(URI.parse(r).path, :method => :get)
       return check_progression if (h[:controller]||'') == '#{self.controller_name}'
       self.initial_referer = h unless self.initial_referer
     end
@@ -244,7 +244,7 @@ SESSION
   # for :form_data=>:sandbox            
   def guard_entry 
     if (r = request.env['HTTP_REFERER'])
-      h = ::ActionController::Routing::Routes.recognize_path(URI.parse(r).path)
+      h = ::ActionController::Routing::Routes.recognize_path(URI.parse(r).path, :method => :get)
       return check_progression if (h[:controller]||'') == '#{self.controller_name}'
       self.initial_referer = h
     else
